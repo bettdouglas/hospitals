@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+service HospitalServer {
+    rpc GetHospitals (Empty) returns (Hospitals);
+    rpc SearchHospitals (SearchQuery) returns (Hospitals);
+}
+
+message Empty {}
+
+message Hospital {
+    string name = 1;
+    Location coordinate = 2;
+    string type = 3;
+    string location = 4;
+}
+
+message Hospitals {
+    repeated Hospital hospitals = 1;
+}
+
+message SearchQuery {
+    string value = 1;
+}
+
+message Location {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+
+// // object name and variables inside the message
+// message Message {
+//     // type variablename = id;
+//     string name = 1;   //String name
+//     // collections are defined using repeated keyword
+//     repeated string names = 2; // List<String> names
+//     int32 messageid = 3; // int messageid
+// }
