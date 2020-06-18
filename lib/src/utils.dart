@@ -9,13 +9,13 @@ class Utils {
     var d = FirstOccurrenceSettingsDetector(eols: ['\r\n', '\n']);
 
     var csvRows = CsvToListConverter().convert(csvString,csvSettingsDetector: d);
-    return csvRows.map((e) => HospitalData(e[2], e[5], e[1].toDouble(), e[0].toDouble())).toList();
+    return csvRows.map((e) => HospitalData(e[2], e[5], e[1].toDouble(), e[0].toDouble(),e[3])).toList();
   }
 }
 
 class HospitalData {
-  final String name,type;
+  final String name,type,location;
   final double latitude,longitude;
 
-  HospitalData(this.name, this.type, this.latitude, this.longitude);
+  HospitalData(this.name, this.type, this.latitude, this.longitude,this.location);
 }
