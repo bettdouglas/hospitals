@@ -16,7 +16,7 @@ class HospitalServer extends HospitalServerServiceBase {
                        ..location = hd.location
                        ..coordinate = coordinate
                        ..type = hd.type;
-    });
+    }).toList();
   }
 
   @override
