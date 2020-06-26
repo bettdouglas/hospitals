@@ -11,5 +11,5 @@ void main(List<String> arguments) async {
     )
   ]);
 
-  await server.serve(address: 'localhost', port: 12345);
+  await server.serve(port: 12345);
 }
