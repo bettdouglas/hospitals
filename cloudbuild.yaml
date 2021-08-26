@@ -1,9 +1,0 @@
-steps:
-- name: "gcr.io/cloud-builders/docker"
-  args:
-  - build
-  - "--tag=gcr.io/$PROJECT_ID/hospitals_dart_grpc"
-  - "--file=./Dockerfile"
-  - .
-images:
-- "gcr.io/$PROJECT_ID/hospitals_dart_grpc"
