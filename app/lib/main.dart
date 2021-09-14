@@ -67,7 +67,9 @@ class EntryPoint extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AllHospitalsPage()),
+                  MaterialPageRoute(
+                    builder: (context) => AllHospitalsPage(),
+                  ),
                 );
               },
               child: Container(

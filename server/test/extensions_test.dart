@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('String extensions test', () {
     test('capitalizeFirstLetter ', () {
-      final c = 'uncapitalized frist';
+      final c = 'uncapitalized first';
       expect(c.capitalizeFirstLetter, 'Uncapitalized first');
     });
   });

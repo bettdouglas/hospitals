@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hospitals_riverpod/src/generated/index.dart';
+import 'common_widgets.dart';
 import 'constants.dart';
 
 final searchAheadProvider = Provider(
@@ -46,54 +47,54 @@ class SearchAhead {
   }
 }
 
-// class SearchHospitalsWidget extends ConsumerWidget {
-//   final ted = TextEditingController();
+class SearchHospitalsWidget extends ConsumerWidget {
+  final ted = TextEditingController();
 
-//   @override
-//   Widget build(BuildContext context, ScopedReader watch) {
-//     final searchProvider = watch(searchAheadProvider);
-//     final resultState = watch(hospitalsStreamProvider);
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final searchProvider = watch(searchAheadProvider);
+    final resultState = watch(hospitalsStreamProvider);
 
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Column(
-//         children: [
-//           TextFormField(
-//             // here we listen to keyboard changes via onChanged method
-//             // and add the words being typed into our streamController
-//             onChanged: (str) => searchProvider.add(str),
-//             autofocus: true,
-//             controller: ted,
-//             decoration: InputDecoration(
-//               suffix: Padding(
-//                 padding: const EdgeInsets.all(4.0),
-//                 child: Text(
-//                   resultState.when(
-//                     data: (d) => d.length.toString(),
-//                     loading: () => '...',
-//                     error: (_, __) => '!',
-//                   ),
-//                   style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: resultState.when(
-//               data: (hospitals) => HospitalsListView(hospitals: hospitals),
-//               loading: () => LoadingView(msg: 'Searching for ${ted.text}'),
-//               error: (error, _) => ErrorView(
-//                 error: error,
-//                 msg: 'Error when searching for hospitals',
-//                 retryFunction: () => searchProvider.add(ted.text),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          TextField(
+            // here we listen to keyboard changes via onChanged method
+            // and add the words being typed into our streamController
+            onChanged: (str) => searchProvider.add(str),
+            autofocus: true,
+            controller: ted,
+            decoration: InputDecoration(
+              suffix: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                  resultState.when(
+                    data: (d) => d.length.toString(),
+                    loading: () => '...',
+                    error: (_, __) => '!',
+                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: resultState.when(
+              data: (hospitals) => HospitalsListView(hospitals: hospitals),
+              loading: () => LoadingView(msg: 'Searching for ${ted.text}'),
+              error: (error, _) => ErrorView(
+                error: error,
+                msg: 'Error when searching for hospitals',
+                retryFunction: () => searchProvider.add(ted.text),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class SearchHospitalsPage extends StatelessWidget {
   const SearchHospitalsPage({Key? key}) : super(key: key);
@@ -104,7 +105,7 @@ class SearchHospitalsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Search Kenyan Hospitals'),
       ),
-      // body: SearchHospitalsWidget(),
+      body: SearchHospitalsWidget(),
     );
   }
 }

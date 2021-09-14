@@ -7,7 +7,9 @@
         {
             "name": "hospitals",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "bin/main.dart",
+            "env": {"PORT" : "12345"},
         }
     ]
 }
