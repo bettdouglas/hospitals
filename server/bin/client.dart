@@ -20,11 +20,13 @@ import 'package:hospitals/src/protos/generated/contract.pbgrpc.dart';
 
 void main(List<String> args) async {
   final channelOptions = ChannelOptions(
-    credentials: ChannelCredentials.secure(), // transmit unencrypted data.,
+    credentials: ChannelCredentials.insecure(), // transmit unencrypted data.,
   );
 
   final channel = ClientChannel(
-    'hospitals-dart-grpc-fysuv2s5na-ez.a.run.app', // connect to localhost. Where it's served.
+    '0.0.0.0',
+    port: 8080,
+    // 'hospitals-dart-grpc-fysuv2s5na-ez.a.run.app', // connect to localhost. Where it's served.
     options: channelOptions, // pass the channelOptions above.
   );
 

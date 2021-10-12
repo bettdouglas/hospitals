@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "program": "bin/main.dart",
-            "env": {"PORT" : "12345"},
+            "env": {"PORT" : "3001"},
         }
     ]
 }

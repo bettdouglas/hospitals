@@ -6,6 +6,7 @@ import 'package:hospitals/src/utils.dart';
 
 void main(List<String> arguments) async {
   var port = Platform.environment['PORT'];
+  print(port);
   if (port == null) {
     throw Exception('Port variable is not defined');
   }
