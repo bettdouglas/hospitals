@@ -9,8 +9,12 @@ dependencies:
   protobuf: ^2.0.0
   csv: ^5.0.0
   dartz:
+  freezed_annotation:
+  dart_jts:
 
 dev_dependencies:
   pedantic: ^1.9.0
   test: ^1.14.4
   riverpod: ^0.14.0
+  freezed:
+  build_runner:

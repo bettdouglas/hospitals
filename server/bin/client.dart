@@ -20,7 +20,10 @@ import 'package:hospitals/src/protos/generated/contract.pbgrpc.dart';
 
 void main(List<String> args) async {
   final channelOptions = ChannelOptions(
-    credentials: ChannelCredentials.insecure(), // transmit unencrypted data.,
+    // credentials: ChannelCredentials.insecure(), // transmit unencrypted data.,
+    credentials: ChannelCredentials.secure(
+      
+    ),
   );
 
   final channel = ClientChannel(

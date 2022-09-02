@@ -3,6 +3,7 @@ syntax = "proto3";
 service HospitalServer {
     rpc GetHospitals (Empty) returns (Hospitals);
     rpc SearchHospitals (SearchQuery) returns (Hospitals);
+    rpc NearestHospitals (NearestHospitalsRequest) returns (NearestHospitalsResponse);
 }
 
 message Empty {}
@@ -27,6 +28,15 @@ message Location {
     double longitude = 2;
 }
 
+message NearestHospitalsRequest {
+    Location location = 1;
+    int32 page = 2;
+    int32 limit = 3;
+} 
+
+message NearestHospitalsResponse {
+    repeated Hospital hospitals = 1;
+}
 
 // // object name and variables inside the message
 // message Message {

@@ -1,10 +1,27 @@
 {
 	"folders": [
 		{
-			"path": "app"
-		},
-		{
-			"path": "server"
+			"path": "."
 		}
-	]
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Dart & Flutter",
+				"request": "launch",
+				"type": "dart"
+			},
+			{
+				"name": "Dart",
+				"type": "dart",
+				"request": "launch",
+				"program": "server/bin/main.dart",
+				"args": ["3001"],
+				"env" : {
+					"PORT": 8090
+				}
+			}
+		]
+	}
 }
