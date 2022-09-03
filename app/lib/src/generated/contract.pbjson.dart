@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: lib/src/protos/contract.proto
+//  source: contract.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
@@ -59,3 +59,45 @@ const Location$json = const {
 
 /// Descriptor for `Location`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List locationDescriptor = $convert.base64Decode('CghMb2NhdGlvbhIaCghsYXRpdHVkZRgBIAEoAVIIbGF0aXR1ZGUSHAoJbG9uZ2l0dWRlGAIgASgBUglsb25naXR1ZGU=');
+@$core.Deprecated('Use nearestHospitalsRequestDescriptor instead')
+const NearestHospitalsRequest$json = const {
+  '1': 'NearestHospitalsRequest',
+  '2': const [
+    const {'1': 'location', '3': 1, '4': 1, '5': 11, '6': '.Location', '10': 'location'},
+    const {'1': 'page', '3': 2, '4': 1, '5': 5, '10': 'page'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
+/// Descriptor for `NearestHospitalsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List nearestHospitalsRequestDescriptor = $convert.base64Decode('ChdOZWFyZXN0SG9zcGl0YWxzUmVxdWVzdBIlCghsb2NhdGlvbhgBIAEoCzIJLkxvY2F0aW9uUghsb2NhdGlvbhISCgRwYWdlGAIgASgFUgRwYWdlEhQKBWxpbWl0GAMgASgFUgVsaW1pdA==');
+@$core.Deprecated('Use nearestHospitalsResponseDescriptor instead')
+const NearestHospitalsResponse$json = const {
+  '1': 'NearestHospitalsResponse',
+  '2': const [
+    const {'1': 'hospitals', '3': 1, '4': 3, '5': 11, '6': '.Hospital', '10': 'hospitals'},
+  ],
+};
+
+/// Descriptor for `NearestHospitalsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List nearestHospitalsResponseDescriptor = $convert.base64Decode('ChhOZWFyZXN0SG9zcGl0YWxzUmVzcG9uc2USJwoJaG9zcGl0YWxzGAEgAygLMgkuSG9zcGl0YWxSCWhvc3BpdGFscw==');
+@$core.Deprecated('Use streamNRandomHospitalsRequestDescriptor instead')
+const StreamNRandomHospitalsRequest$json = const {
+  '1': 'StreamNRandomHospitalsRequest',
+  '2': const [
+    const {'1': 'count', '3': 1, '4': 1, '5': 5, '10': 'count'},
+  ],
+};
+
+/// Descriptor for `StreamNRandomHospitalsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List streamNRandomHospitalsRequestDescriptor = $convert.base64Decode('Ch1TdHJlYW1OUmFuZG9tSG9zcGl0YWxzUmVxdWVzdBIUCgVjb3VudBgBIAEoBVIFY291bnQ=');
+@$core.Deprecated('Use streamNRandomHospitalsResponseDescriptor instead')
+const StreamNRandomHospitalsResponse$json = const {
+  '1': 'StreamNRandomHospitalsResponse',
+  '2': const [
+    const {'1': 'hospitals', '3': 1, '4': 3, '5': 11, '6': '.Hospital', '10': 'hospitals'},
+  ],
+};
+
+/// Descriptor for `StreamNRandomHospitalsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List streamNRandomHospitalsResponseDescriptor = $convert.base64Decode('Ch5TdHJlYW1OUmFuZG9tSG9zcGl0YWxzUmVzcG9uc2USJwoJaG9zcGl0YWxzGAEgAygLMgkuSG9zcGl0YWxSCWhvc3BpdGFscw==');

@@ -4,6 +4,7 @@ service HospitalServer {
     rpc GetHospitals (Empty) returns (Hospitals);
     rpc SearchHospitals (SearchQuery) returns (Hospitals);
     rpc NearestHospitals (NearestHospitalsRequest) returns (NearestHospitalsResponse);
+    rpc StreamNRandomHospitals (StreamNRandomHospitalsRequest) returns (stream StreamNRandomHospitalsResponse);
 }
 
 message Empty {}
@@ -38,6 +39,13 @@ message NearestHospitalsResponse {
     repeated Hospital hospitals = 1;
 }
 
+message StreamNRandomHospitalsRequest {
+    int32 count = 1;
+}
+
+message StreamNRandomHospitalsResponse {
+    repeated Hospital hospitals = 1;
+}
 // // object name and variables inside the message
 // message Message {
 //     // type variablename = id;

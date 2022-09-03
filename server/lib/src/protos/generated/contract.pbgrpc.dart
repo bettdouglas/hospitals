@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: lib/src/protos/contract.proto
+//  source: contract.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -23,6 +23,18 @@ class HospitalServerClient extends $grpc.Client {
           '/HospitalServer/SearchHospitals',
           ($0.SearchQuery value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Hospitals.fromBuffer(value));
+  static final _$nearestHospitals = $grpc.ClientMethod<
+          $0.NearestHospitalsRequest, $0.NearestHospitalsResponse>(
+      '/HospitalServer/NearestHospitals',
+      ($0.NearestHospitalsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.NearestHospitalsResponse.fromBuffer(value));
+  static final _$streamNRandomHospitals = $grpc.ClientMethod<
+          $0.StreamNRandomHospitalsRequest, $0.StreamNRandomHospitalsResponse>(
+      '/HospitalServer/StreamNRandomHospitals',
+      ($0.StreamNRandomHospitalsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.StreamNRandomHospitalsResponse.fromBuffer(value));
 
   HospitalServerClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -37,6 +49,20 @@ class HospitalServerClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.Hospitals> searchHospitals($0.SearchQuery request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$searchHospitals, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.NearestHospitalsResponse> nearestHospitals(
+      $0.NearestHospitalsRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$nearestHospitals, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.StreamNRandomHospitalsResponse>
+      streamNRandomHospitals($0.StreamNRandomHospitalsRequest request,
+          {$grpc.CallOptions? options}) {
+    return $createStreamingCall(
+        _$streamNRandomHospitals, $async.Stream.fromIterable([request]),
+        options: options);
   }
 }
 
@@ -58,6 +84,24 @@ abstract class HospitalServerServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.SearchQuery.fromBuffer(value),
         ($0.Hospitals value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.NearestHospitalsRequest,
+            $0.NearestHospitalsResponse>(
+        'NearestHospitals',
+        nearestHospitals_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.NearestHospitalsRequest.fromBuffer(value),
+        ($0.NearestHospitalsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.StreamNRandomHospitalsRequest,
+            $0.StreamNRandomHospitalsResponse>(
+        'StreamNRandomHospitals',
+        streamNRandomHospitals_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) =>
+            $0.StreamNRandomHospitalsRequest.fromBuffer(value),
+        ($0.StreamNRandomHospitalsResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Hospitals> getHospitals_Pre(
@@ -70,8 +114,24 @@ abstract class HospitalServerServiceBase extends $grpc.Service {
     return searchHospitals(call, await request);
   }
 
+  $async.Future<$0.NearestHospitalsResponse> nearestHospitals_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.NearestHospitalsRequest> request) async {
+    return nearestHospitals(call, await request);
+  }
+
+  $async.Stream<$0.StreamNRandomHospitalsResponse> streamNRandomHospitals_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.StreamNRandomHospitalsRequest> request) async* {
+    yield* streamNRandomHospitals(call, await request);
+  }
+
   $async.Future<$0.Hospitals> getHospitals(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$0.Hospitals> searchHospitals(
       $grpc.ServiceCall call, $0.SearchQuery request);
+  $async.Future<$0.NearestHospitalsResponse> nearestHospitals(
+      $grpc.ServiceCall call, $0.NearestHospitalsRequest request);
+  $async.Stream<$0.StreamNRandomHospitalsResponse> streamNRandomHospitals(
+      $grpc.ServiceCall call, $0.StreamNRandomHospitalsRequest request);
 }

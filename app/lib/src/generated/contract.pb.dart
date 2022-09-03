@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: lib/src/protos/contract.proto
+//  source: contract.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -276,5 +276,211 @@ class Location extends $pb.GeneratedMessage {
   $core.bool hasLongitude() => $_has(1);
   @$pb.TagNumber(2)
   void clearLongitude() => clearField(2);
+}
+
+class NearestHospitalsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'NearestHospitalsRequest', createEmptyInstance: create)
+    ..aOM<Location>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'location', subBuilder: Location.create)
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'page', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'limit', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  NearestHospitalsRequest._() : super();
+  factory NearestHospitalsRequest({
+    Location? location,
+    $core.int? page,
+    $core.int? limit,
+  }) {
+    final _result = create();
+    if (location != null) {
+      _result.location = location;
+    }
+    if (page != null) {
+      _result.page = page;
+    }
+    if (limit != null) {
+      _result.limit = limit;
+    }
+    return _result;
+  }
+  factory NearestHospitalsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NearestHospitalsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  NearestHospitalsRequest clone() => NearestHospitalsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  NearestHospitalsRequest copyWith(void Function(NearestHospitalsRequest) updates) => super.copyWith((message) => updates(message as NearestHospitalsRequest)) as NearestHospitalsRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static NearestHospitalsRequest create() => NearestHospitalsRequest._();
+  NearestHospitalsRequest createEmptyInstance() => create();
+  static $pb.PbList<NearestHospitalsRequest> createRepeated() => $pb.PbList<NearestHospitalsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static NearestHospitalsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NearestHospitalsRequest>(create);
+  static NearestHospitalsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Location get location => $_getN(0);
+  @$pb.TagNumber(1)
+  set location(Location v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasLocation() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLocation() => clearField(1);
+  @$pb.TagNumber(1)
+  Location ensureLocation() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.int get page => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set page($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPage() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get limit => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set limit($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLimit() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLimit() => clearField(3);
+}
+
+class NearestHospitalsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'NearestHospitalsResponse', createEmptyInstance: create)
+    ..pc<Hospital>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hospitals', $pb.PbFieldType.PM, subBuilder: Hospital.create)
+    ..hasRequiredFields = false
+  ;
+
+  NearestHospitalsResponse._() : super();
+  factory NearestHospitalsResponse({
+    $core.Iterable<Hospital>? hospitals,
+  }) {
+    final _result = create();
+    if (hospitals != null) {
+      _result.hospitals.addAll(hospitals);
+    }
+    return _result;
+  }
+  factory NearestHospitalsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NearestHospitalsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  NearestHospitalsResponse clone() => NearestHospitalsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  NearestHospitalsResponse copyWith(void Function(NearestHospitalsResponse) updates) => super.copyWith((message) => updates(message as NearestHospitalsResponse)) as NearestHospitalsResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static NearestHospitalsResponse create() => NearestHospitalsResponse._();
+  NearestHospitalsResponse createEmptyInstance() => create();
+  static $pb.PbList<NearestHospitalsResponse> createRepeated() => $pb.PbList<NearestHospitalsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static NearestHospitalsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NearestHospitalsResponse>(create);
+  static NearestHospitalsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Hospital> get hospitals => $_getList(0);
+}
+
+class StreamNRandomHospitalsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'StreamNRandomHospitalsRequest', createEmptyInstance: create)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'count', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  StreamNRandomHospitalsRequest._() : super();
+  factory StreamNRandomHospitalsRequest({
+    $core.int? count,
+  }) {
+    final _result = create();
+    if (count != null) {
+      _result.count = count;
+    }
+    return _result;
+  }
+  factory StreamNRandomHospitalsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StreamNRandomHospitalsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  StreamNRandomHospitalsRequest clone() => StreamNRandomHospitalsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  StreamNRandomHospitalsRequest copyWith(void Function(StreamNRandomHospitalsRequest) updates) => super.copyWith((message) => updates(message as StreamNRandomHospitalsRequest)) as StreamNRandomHospitalsRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static StreamNRandomHospitalsRequest create() => StreamNRandomHospitalsRequest._();
+  StreamNRandomHospitalsRequest createEmptyInstance() => create();
+  static $pb.PbList<StreamNRandomHospitalsRequest> createRepeated() => $pb.PbList<StreamNRandomHospitalsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static StreamNRandomHospitalsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StreamNRandomHospitalsRequest>(create);
+  static StreamNRandomHospitalsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get count => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set count($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasCount() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearCount() => clearField(1);
+}
+
+class StreamNRandomHospitalsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'StreamNRandomHospitalsResponse', createEmptyInstance: create)
+    ..pc<Hospital>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hospitals', $pb.PbFieldType.PM, subBuilder: Hospital.create)
+    ..hasRequiredFields = false
+  ;
+
+  StreamNRandomHospitalsResponse._() : super();
+  factory StreamNRandomHospitalsResponse({
+    $core.Iterable<Hospital>? hospitals,
+  }) {
+    final _result = create();
+    if (hospitals != null) {
+      _result.hospitals.addAll(hospitals);
+    }
+    return _result;
+  }
+  factory StreamNRandomHospitalsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StreamNRandomHospitalsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  StreamNRandomHospitalsResponse clone() => StreamNRandomHospitalsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  StreamNRandomHospitalsResponse copyWith(void Function(StreamNRandomHospitalsResponse) updates) => super.copyWith((message) => updates(message as StreamNRandomHospitalsResponse)) as StreamNRandomHospitalsResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static StreamNRandomHospitalsResponse create() => StreamNRandomHospitalsResponse._();
+  StreamNRandomHospitalsResponse createEmptyInstance() => create();
+  static $pb.PbList<StreamNRandomHospitalsResponse> createRepeated() => $pb.PbList<StreamNRandomHospitalsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static StreamNRandomHospitalsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StreamNRandomHospitalsResponse>(create);
+  static StreamNRandomHospitalsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Hospital> get hospitals => $_getList(0);
 }
 
