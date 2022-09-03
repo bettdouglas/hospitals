@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:grpc/grpc.dart';
+import 'package:hospitals/src/server_interceptors.dart';
 import 'package:hospitals/src/server.dart';
 import 'package:hospitals/src/utils.dart';
 
@@ -15,13 +16,19 @@ void main(List<String> arguments) async {
 
   final hospitalsData = await Utils.readHospitalsFromCSV();
 
-  final server = Server([
-    HospitalServer(
-      hospitalData: hospitalsData,
-    ),
-  ]);
+  final server = Server(
+    [
+      HospitalServer(
+        hospitalData: hospitalsData,
+      ),
+    ],
+    // auth interceptor
+    [authInterceptor, loggingInterceptor],
+  );
 
-  await server.serve(port: intPort);
+  final ip = InternetAddress.anyIPv4;
+
+  await server.serve(port: intPort, address: ip);
 
   print('Server running at port ${server.port}');
 }

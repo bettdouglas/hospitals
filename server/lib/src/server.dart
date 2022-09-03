@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:grpc/grpc.dart';
 import 'package:grpc/src/server/call.dart';
 import 'package:hospitals/src/extensions.dart';
 import 'package:hospitals/src/protos/generated/contract.pbgrpc.dart';
@@ -42,5 +45,44 @@ class HospitalServer extends HospitalServerServiceBase {
     return Hospitals(
       hospitals: filtered,
     );
+  }
+
+  @override
+  Stream<StreamNRandomHospitalsResponse> streamNRandomHospitals(
+    ServiceCall call,
+    StreamNRandomHospitalsRequest request,
+  ) async* {
+    final count = request.count;
+    print(count);
+    final stream = Stream.periodic(Duration(seconds: 5)).map(
+      (event) => StreamNRandomHospitalsResponse(
+        hospitals: _hospitals.randomN(count),
+      ),
+    );
+    print(stream);
+    yield* stream;
+  }
+
+  @override
+  Future<NearestHospitalsResponse> nearestHospitals(
+    ServiceCall call,
+    NearestHospitalsRequest request,
+  ) {
+    // TODO: implement nearestHospitals
+    throw UnimplementedError();
+  }
+}
+
+extension RandomN<T> on List<T> {
+  T get random {
+    return elementAt(Random().nextInt(length));
+  }
+
+  List<T> randomN(int count) {
+    final elements = <T>{};
+    while (elements.length < count) {
+      elements.add(random);
+    }
+    return elements.toList();
   }
 }
