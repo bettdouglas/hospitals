@@ -22,8 +22,6 @@ final userStreamProvider = StreamProvider(
   (ref) => FirebaseAuth.instance.authStateChanges(),
 );
 
-final uidProvider = Provider<String?>((ref) {});
-
 class FirebaseInitPage extends ConsumerWidget {
   const FirebaseInitPage({
     required this.homeWidget,
