@@ -7,15 +7,17 @@ import 'package:hospitals_riverpod/src/generated/contract.pbgrpc.dart';
 
 final allHospitalsFutureProvider = FutureProvider<List<Hospital>>(
   (ref) async {
-    final response = await hospitalClient.getHospitals(Empty()); // our future
+    final response = await ref
+        .read(hostpitalClientProvider)
+        .getHospitals(Empty()); // our future
     return response.hospitals; //returns a list of all the hospitals
   },
 );
 
 class AllHospitalsView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    AsyncValue<List<Hospital>> state = watch(allHospitalsFutureProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue<List<Hospital>> state = ref.watch(allHospitalsFutureProvider);
 
     return state.when(
       // when we get the data
@@ -23,15 +25,19 @@ class AllHospitalsView extends ConsumerWidget {
       // when we're loading
       loading: () => Center(child: CircularProgressIndicator()),
       // when we have an error
-      error: (err, stackTrace) => Column(
-        children: [
-          Text(err.toString()),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () => context.refresh(allHospitalsFutureProvider),
-            child: Container(height: 20, child: Text('Try Again')),
-          )
-        ],
+      error: (err, stackTrace) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(err.toString()),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => ref.refresh(allHospitalsFutureProvider),
+              child: Container(height: 20, child: Text('Try Again')),
+            )
+          ],
+        ),
       ),
     );
   }

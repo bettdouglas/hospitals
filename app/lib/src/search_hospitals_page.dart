@@ -2,17 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:hospitals_riverpod/src/generated/index.dart';
 import 'common_widgets.dart';
 import 'constants.dart';
 
 final searchAheadProvider = Provider(
-  (ref) => SearchAhead(hospitalClient),
+  (ref) => SearchAhead(ref.read(hostpitalClientProvider)),
 );
 
 final hospitalsStreamProvider = StreamProvider(
   (ref) => ref.watch(searchAheadProvider).hospitalsStream,
 );
+
+final userNameProvider =
+    FutureProvider.family<String, int>((ref, int id) async {
+  return Future.value(id.toString());
+});
 
 class SearchAhead {
   // our grpc stub
@@ -31,11 +37,11 @@ class SearchAhead {
   SearchAhead(this.stub) {
     // transform the textStream to Stream<Hospitals> asyncMap.
     _hospitalsStream = _controller.stream.asyncMap((String query) async {
-      print('Searching for $query');
       Hospitals response = await stub.searchHospitals(
         SearchQuery(
           value: query,
         ),
+        options: CallOptions(),
       );
       return response;
     });
@@ -51,9 +57,9 @@ class SearchHospitalsWidget extends ConsumerWidget {
   final ted = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final searchProvider = watch(searchAheadProvider);
-    final resultState = watch(hospitalsStreamProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchProvider = ref.watch(searchAheadProvider);
+    final resultState = ref.watch(hospitalsStreamProvider);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
