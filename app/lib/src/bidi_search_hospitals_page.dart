@@ -2,63 +2,52 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grpc/grpc_connection_interface.dart';
+
 import 'package:hospitals_riverpod/src/generated/index.dart';
+
 import 'common_widgets.dart';
 import 'constants.dart';
 
-final searchAheadProvider = Provider(
-  (ref) => SearchAhead(ref.read(hostpitalClientProvider)),
+final bidiSearchHandlerProvider = Provider(
+  (ref) => BidiSearchHandler(stub: ref.read(hostpitalClientProvider)),
 );
 
 final hospitalsStreamProvider = StreamProvider(
-  (ref) => ref.watch(searchAheadProvider).hospitalsStream,
+  (ref) => ref.watch(bidiSearchHandlerProvider).resultStream,
 );
 
-final userNameProvider =
-    FutureProvider.family<String, int>((ref, int id) async {
-  return Future.value(id.toString());
-});
-
-class SearchAhead {
+class BidiSearchHandler {
+  BidiSearchHandler({
+    required this.stub,
+  }) {
+    final searchStream = _controller.stream.asBroadcastStream();
+    final s1 = searchStream.listen((event) {
+      print('s1. ${event.value}');
+    });
+    stub.bidiSearch(searchStream).map((e) {
+      print(e.hospitals.length);
+      return e.hospitals;
+    }).pipe(_resultController);
+  }
   // our grpc stub
   final HospitalServerClient stub;
 
-  // getter to expose hospitals as a list of hospitals
-  Stream<List<Hospital>> get hospitalsStream =>
-      _hospitalsStream.map((Hospitals e) => e.hospitals);
-
-  // the text stream controller
-  final _controller = StreamController<String>();
-
-  // private variable that holds the state of the transformed stream
-  late Stream<Hospitals> _hospitalsStream;
-
-  SearchAhead(this.stub) {
-    // transform the textStream to Stream<Hospitals> asyncMap.
-    _hospitalsStream = _controller.stream.asyncMap((String query) async {
-      Hospitals response = await stub.searchHospitals(
-        SearchQuery(
-          value: query,
-        ),
-        options: CallOptions(),
-      );
-      return response;
-    });
-  }
+  final _controller = StreamController<SearchQuery>();
+  final _resultController = StreamController<List<Hospital>>()..add([]);
+  Stream<List<Hospital>> get resultStream => _resultController.stream;
 
   // we add the typed values here using TextField onChanged
   void add(String keyword) async {
-    _controller.add(keyword);
+    _controller.add(SearchQuery(value: keyword));
   }
 }
 
-class SearchHospitalsWidget extends ConsumerWidget {
+class BidiSearchHospitalsWidget extends ConsumerWidget {
   final ted = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchProvider = ref.watch(searchAheadProvider);
+    final searchProvider = ref.watch(bidiSearchHandlerProvider);
     final resultState = ref.watch(hospitalsStreamProvider);
 
     return Padding(
@@ -102,10 +91,10 @@ class SearchHospitalsWidget extends ConsumerWidget {
   }
 }
 
-class SearchHospitalsPage extends StatelessWidget {
-  const SearchHospitalsPage({Key? key}) : super(key: key);
+class BidiSearchHospitalsPage extends StatelessWidget {
+  const BidiSearchHospitalsPage({Key? key}) : super(key: key);
 
-  static String get route => '/search';
+  static String get route => '/bidi-search';
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +102,7 @@ class SearchHospitalsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Search Kenyan Hospitals'),
       ),
-      body: SearchHospitalsWidget(),
+      body: BidiSearchHospitalsWidget(),
     );
   }
 }

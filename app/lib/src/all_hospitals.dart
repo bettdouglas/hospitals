@@ -46,6 +46,8 @@ class AllHospitalsView extends ConsumerWidget {
 class AllHospitalsPage extends StatelessWidget {
   const AllHospitalsPage({Key? key}) : super(key: key);
 
+  static String get route => '/all-hospitals';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

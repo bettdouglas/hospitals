@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  build_grpc_channel:
+    dependency: "direct main"
+    description:
+      name: build_grpc_channel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   characters:
     dependency: transitive
     description:
@@ -163,6 +170,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.0"
   googleapis_auth:
     dependency: transitive
     description:
@@ -435,5 +449,5 @@ packages:
     source: hosted
     version: "2.0.0"
 sdks:
-  dart: ">=2.17.0-0 <3.0.0"
+  dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"

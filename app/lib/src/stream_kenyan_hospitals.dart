@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +9,8 @@ import 'package:hospitals_riverpod/src/generated/contract.pbgrpc.dart';
 
 class RandomNHospitalsPage extends ConsumerStatefulWidget {
   const RandomNHospitalsPage({Key? key}) : super(key: key);
+
+  static String get route => '/stream-hospitals';
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -37,9 +41,8 @@ class _RandomNHospitalsPageState extends ConsumerState<RandomNHospitalsPage> {
                   Text(err.toString()),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () => ref
-                        .read(streamKenyanHospitalsProvider)
-                        .update(value.toInt()),
+                    onPressed: () =>
+                        ref.read(hospitalsStreamProvider).update(value.toInt()),
                     child: Container(height: 20, child: Text('Try Again')),
                   )
                 ],
@@ -61,11 +64,12 @@ class _RandomNHospitalsPageState extends ConsumerState<RandomNHospitalsPage> {
                   },
                 ),
               ),
-              IconButton(onPressed: () {
-                ref
-                        .read(streamKenyanHospitalsProvider)
-                        .update(value.toInt());
-              }, icon: Icon(Icons.update)),
+              IconButton(
+                onPressed: () {
+                  ref.read(hospitalsStreamProvider).update(value.toInt());
+                },
+                icon: Icon(Icons.update),
+              ),
             ],
           )
         ],
@@ -75,29 +79,41 @@ class _RandomNHospitalsPageState extends ConsumerState<RandomNHospitalsPage> {
   }
 }
 
-class _StreamKenyanHospitalsHandler {
+class _StreamKenyanHospitalsHandler with ChangeNotifier {
   _StreamKenyanHospitalsHandler({
     required this.hospitalServerClient,
   });
   final HospitalServerClient hospitalServerClient;
 
-  var randomHospitalsStream = Stream<List<Hospital>>.empty();
+  var randomHospitalsController = StreamController<List<Hospital>>();
+  Stream<List<Hospital>> get hospitalsStream =>
+      randomHospitalsController.stream;
+  StreamSubscription? _subscription;
 
   void update(int count) async {
-    final response = hospitalServerClient.streamNRandomHospitals(
-      StreamNRandomHospitalsRequest(count: count),
-    );
-    randomHospitalsStream = response.map((event) => event.hospitals);
+    try {
+      final response = hospitalServerClient.streamNRandomHospitals(
+        StreamNRandomHospitalsRequest(count: count),
+      );
+      print(response);
+      _subscription?.cancel();
+      _subscription = response.map((event) => event.hospitals).listen((event) {
+        randomHospitalsController.add(event);
+      });
+    } catch (e) {
+      randomHospitalsController.addError(e);
+    }
+    notifyListeners();
   }
 }
 
-final randomHospitalsStreamProvider = StreamProvider<List<Hospital>>((ref) {
-  return ref.read(streamKenyanHospitalsProvider).randomHospitalsStream;
-});
-
-final streamKenyanHospitalsProvider =
-    Provider<_StreamKenyanHospitalsHandler>((ref) {
+final hospitalsStreamProvider =
+    ChangeNotifierProvider<_StreamKenyanHospitalsHandler>((ref) {
   return _StreamKenyanHospitalsHandler(
     hospitalServerClient: ref.read(hostpitalClientProvider),
   );
+});
+
+final randomHospitalsStreamProvider = StreamProvider<List<Hospital>>((ref) {
+  return ref.read(hospitalsStreamProvider).hospitalsStream;
 });

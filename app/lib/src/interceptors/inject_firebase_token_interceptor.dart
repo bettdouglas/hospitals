@@ -16,8 +16,16 @@ class AuthMetadataInterceptor extends ClientInterceptor {
   Future<void> _injectToken(Map<String, String> metadata, String uri) async {
     final user = firebaseAuth.currentUser;
     if (user != null) {
-      final token = await user.getIdToken();
-      metadata['token'] = token;
+      try {
+        final token = await user.getIdToken();
+        metadata['token'] = token;
+        print('token');
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      // this cancels the call internally without going to gRPC
+      // throw GrpcError.internal("You shouldn't see this");
     }
   }
 
