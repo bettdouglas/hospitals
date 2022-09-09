@@ -35,6 +35,10 @@ class HospitalServerClient extends $grpc.Client {
       ($0.StreamNRandomHospitalsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.StreamNRandomHospitalsResponse.fromBuffer(value));
+  static final _$bidiSearch = $grpc.ClientMethod<$0.SearchQuery, $0.Hospitals>(
+      '/HospitalServer/BidiSearch',
+      ($0.SearchQuery value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Hospitals.fromBuffer(value));
 
   HospitalServerClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -63,6 +67,12 @@ class HospitalServerClient extends $grpc.Client {
     return $createStreamingCall(
         _$streamNRandomHospitals, $async.Stream.fromIterable([request]),
         options: options);
+  }
+
+  $grpc.ResponseStream<$0.Hospitals> bidiSearch(
+      $async.Stream<$0.SearchQuery> request,
+      {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$bidiSearch, request, options: options);
   }
 }
 
@@ -102,6 +112,13 @@ abstract class HospitalServerServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.StreamNRandomHospitalsRequest.fromBuffer(value),
         ($0.StreamNRandomHospitalsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.SearchQuery, $0.Hospitals>(
+        'BidiSearch',
+        bidiSearch,
+        true,
+        true,
+        ($core.List<$core.int> value) => $0.SearchQuery.fromBuffer(value),
+        ($0.Hospitals value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Hospitals> getHospitals_Pre(
@@ -134,4 +151,6 @@ abstract class HospitalServerServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.NearestHospitalsRequest request);
   $async.Stream<$0.StreamNRandomHospitalsResponse> streamNRandomHospitals(
       $grpc.ServiceCall call, $0.StreamNRandomHospitalsRequest request);
+  $async.Stream<$0.Hospitals> bidiSearch(
+      $grpc.ServiceCall call, $async.Stream<$0.SearchQuery> request);
 }

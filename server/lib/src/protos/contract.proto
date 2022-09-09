@@ -5,6 +5,7 @@ service HospitalServer {
     rpc SearchHospitals (SearchQuery) returns (Hospitals);
     rpc NearestHospitals (NearestHospitalsRequest) returns (NearestHospitalsResponse);
     rpc StreamNRandomHospitals (StreamNRandomHospitalsRequest) returns (stream StreamNRandomHospitalsResponse);
+    rpc BidiSearch (stream SearchQuery) returns (stream Hospitals);
 }
 
 message Empty {}
@@ -54,3 +55,6 @@ message StreamNRandomHospitalsResponse {
 //     repeated string names = 2; // List<String> names
 //     int32 messageid = 3; // int messageid
 // }
+
+
+// protoc -I lib/src/protos/ lib/src/protos/contract.proto --dart_out=grpc:lib/src/protos/generated/

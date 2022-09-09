@@ -19,8 +19,14 @@ COPY --from=build /runtime/ /
 COPY assets/ assets/
 COPY --from=build /app/bin/server /app/bin/
 
+RUN ["/app/bin/server"]
+
+FROM envoyproxy/envoy:v1.20-latest
+COPY ./envoy.yaml /etc/envoy/envoy.yaml
+
 # Start server.
-CMD ["/app/bin/server"]
+
+CMD /usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l debug
 
 
 # gcloud run deploy --image gcr.io/$PROJECT_ID/hospitals_dart_grpc --platform managed

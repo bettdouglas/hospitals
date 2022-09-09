@@ -31,17 +31,23 @@ class HospitalServer extends HospitalServerServiceBase {
     return Hospitals(hospitals: _hospitals);
   }
 
+  List<Hospital> _searchByName(String name) {
+    return _hospitals
+        .where(
+          (hospital) => hospital.name.toLowerCase().contains(
+                name.toLowerCase(),
+              ),
+        )
+        .toList();
+  }
+
   @override
   Future<Hospitals> searchHospitals(
     ServiceCall call,
     SearchQuery request,
   ) async {
-    final searchTerm = request.value;
-    final filtered = _hospitals.where(
-      (hospital) => hospital.name.toLowerCase().contains(
-            searchTerm.toLowerCase(),
-          ),
-    );
+    final name = request.value;
+    final filtered = _searchByName(name);
     return Hospitals(
       hospitals: filtered,
     );
@@ -54,10 +60,13 @@ class HospitalServer extends HospitalServerServiceBase {
   ) async* {
     final count = request.count;
     print(count);
-    final stream = Stream.periodic(Duration(seconds: 5)).map(
-      (event) => StreamNRandomHospitalsResponse(
-        hospitals: _hospitals.randomN(count),
-      ),
+    final stream = Stream.periodic(Duration(seconds: 1)).map(
+      (event) {
+        print(event);
+        return StreamNRandomHospitalsResponse(
+          hospitals: _hospitals.randomN(count),
+        );
+      },
     );
     print(stream);
     yield* stream;
@@ -70,6 +79,19 @@ class HospitalServer extends HospitalServerServiceBase {
   ) {
     // TODO: implement nearestHospitals
     throw UnimplementedError();
+  }
+
+  @override
+  Stream<Hospitals> bidiSearch(
+    ServiceCall call,
+    Stream<SearchQuery> request,
+  ) async* {
+    // debounce streams t
+    await for (final query in request) {
+      print(query);
+      final filtered = _searchByName(query.value);
+      yield Hospitals(hospitals: filtered);
+    }
   }
 }
 
