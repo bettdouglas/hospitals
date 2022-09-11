@@ -1,9 +1,14 @@
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hospitals_riverpod/firebase_options.dart';
 import 'package:hospitals_riverpod/src/all_hospitals.dart';
+import 'package:hospitals_riverpod/src/router.dart';
+import 'package:hospitals_riverpod/src/sign_up/sign_up_page.dart';
 import 'package:hospitals_riverpod/src/bidi_search_hospitals_page.dart';
 import 'package:hospitals_riverpod/src/firebase_controllers.dart';
 import 'package:hospitals_riverpod/src/search_hospitals_page.dart';
@@ -11,52 +16,52 @@ import 'package:hospitals_riverpod/src/stream_kenyan_hospitals.dart';
 import 'package:logging/logging.dart';
 import 'package:random_color_scheme/random_color_scheme.dart';
 
-void main() {
+class LoggingObserver extends ProviderObserver {
+  @override
+  void didUpdateProvider(
+    ProviderBase provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    final logger = Logger(provider.runtimeType.toString());
+    logger.info('''
+{
+  "provider": "${provider.name ?? provider.runtimeType}",
+  "newValue": "$newValue"
+}''');
+  }
+}
+
+void main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
     log(
       '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}',
     );
   });
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  final _router = GoRouter(
-    initialLocation: '/',
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => FirebaseInitPage(homeWidget: EntryPoint()),
-      ),
-      GoRoute(
-        path: SearchHospitalsPage.route,
-        builder: (context, state) => SearchHospitalsPage(),
-      ),
-      GoRoute(
-        path: AllHospitalsPage.route,
-        builder: (context, state) => AllHospitalsPage(),
-      ),
-      GoRoute(
-        path: RandomNHospitalsPage.route,
-        builder: (context, state) => RandomNHospitalsPage(),
-      ),
-      GoRoute(
-        path: BidiSearchHospitalsPage.route,
-        builder: (context, state) => BidiSearchHospitalsPage(),
-      )
-    ],
-    redirect: (state) {},
-  );
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
   Widget build(BuildContext context) {
+    final router = ref.read(routerProvider);
     final colorScheme = randomColorSchemeLight(shouldPrint: false);
     return MaterialApp.router(
-      routeInformationParser: _router.routeInformationParser,
-      routerDelegate: _router.routerDelegate,
-      routeInformationProvider: _router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
       title: 'Flutter/Dart gRPC Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -68,6 +73,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      supportedLocales: [
+        Locale('en'),
+      ],
+      localizationsDelegates: [
+        FormBuilderLocalizations.delegate,
+      ],
     );
   }
 }
@@ -97,7 +108,7 @@ class EntryPoint extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  context.go(SearchHospitalsPage.route);
+                  context.push(SearchHospitalsPage.route);
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -108,7 +119,7 @@ class EntryPoint extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  context.go(AllHospitalsPage.route);
+                  context.push(AllHospitalsPage.route);
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -119,7 +130,7 @@ class EntryPoint extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  context.go(RandomNHospitalsPage.route);
+                  context.push(RandomNHospitalsPage.route);
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -130,12 +141,23 @@ class EntryPoint extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  context.go(BidiSearchHospitalsPage.route);
+                  context.push(BidiSearchHospitalsPage.route);
                 },
                 child: Container(
                   alignment: Alignment.center,
                   height: 20,
                   child: Text('BidiRectional Search'),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  context.go(SignUpPage.route);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 20,
+                  child: Text('SignUp'),
                 ),
               ),
             ],

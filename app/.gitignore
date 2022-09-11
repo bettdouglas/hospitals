@@ -51,3 +51,6 @@ app.*.map.json
 **/GoogleService-Info.plist
 **/firebase_options.dart
 
+# Freezed files
+*.freezed.dart
+*.g.dart 
