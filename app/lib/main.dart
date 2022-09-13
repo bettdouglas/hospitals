@@ -7,6 +7,7 @@ import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitals_riverpod/firebase_options.dart';
 import 'package:hospitals_riverpod/src/all_hospitals.dart';
+import 'package:hospitals_riverpod/src/auth/auth_state_provider.dart';
 import 'package:hospitals_riverpod/src/router.dart';
 import 'package:hospitals_riverpod/src/sign_up/sign_up_page.dart';
 import 'package:hospitals_riverpod/src/bidi_search_hospitals_page.dart';
@@ -24,8 +25,7 @@ class LoggingObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    final logger = Logger(provider.runtimeType.toString());
-    logger.info('''
+    print('''
 {
   "provider": "${provider.name ?? provider.runtimeType}",
   "newValue": "$newValue"
@@ -150,15 +150,71 @@ class EntryPoint extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  context.go(SignUpPage.route);
+              Consumer(
+                builder: (context, ref, child) {
+                  final state = ref.watch(authProvider);
+                  return state.when(
+                    initial: () => Text('Initial'),
+                    loading: (msg) => Row(
+                      children: [
+                        Text(msg),
+                        CircularProgressIndicator(),
+                      ],
+                    ),
+                    authenticated: (_) => SizedBox(),
+                    unAuthenticated: () => ElevatedButton(
+                      onPressed: () {
+                        context.go(SignUpPage.route, extra: {'p': 1});
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 20,
+                        child: Text('Sign Up'),
+                      ),
+                    ),
+                    failure: (error, _) => Text(
+                      error,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  );
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 20,
-                  child: Text('SignUp'),
-                ),
+              ),
+              SizedBox(height: 20),
+              Consumer(
+                builder: (context, ref, child) {
+                  final state = ref.watch(authProvider);
+
+                  return state.maybeWhen(
+                    orElse: () => SizedBox(),
+                    authenticated: (user) => Text(user.uid),
+                    initial: () => Text('Please choose something'),
+                    failure: (err, st) => Text(err),
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              Consumer(
+                builder: (context, ref, child) {
+                  final state = ref.watch(authProvider);
+
+                  return state.maybeMap(
+                    orElse: () => SizedBox(),
+                    authenticated: (a) => Text(a.user.uid),
+                    initial: (s) => Text('Please choose something'),
+                    failure: (f) => Text(f.err),
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              Consumer(
+                builder: (context, ref, child) {
+                  final state = ref.watch(authProvider);
+
+                  return state.maybeMap(
+                    orElse: () => SizedBox(),
+                    failure: (f) => Text(f.err),
+                  );
+                },
               ),
             ],
           ),

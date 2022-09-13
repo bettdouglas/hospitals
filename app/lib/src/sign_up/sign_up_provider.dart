@@ -31,5 +31,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
 
 final signUpProvider =
     StateNotifierProvider<SignUpNotifier, SignUpState>((ref) {
-  return SignUpNotifier(firebaseAuth: ref.read(firebaseAuthProvider));
+  return SignUpNotifier(
+    firebaseAuth: ref.read(firebaseAuthProvider),
+  );
 });

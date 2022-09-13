@@ -32,6 +32,16 @@ class SignUpPage extends StatelessWidget {
             key: formKey,
             child: Stack(
               children: [
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ref.read(signUpProvider).maybeWhen(
+                          orElse: () => SizedBox(),
+                          loading: (msg) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                  },
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -93,16 +103,6 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.read(signUpProvider).maybeWhen(
-                          orElse: () => SizedBox(),
-                          loading: (msg) => Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                  },
-                )
               ],
             ),
           ),

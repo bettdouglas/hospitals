@@ -11,7 +11,8 @@ import 'package:hospitals_riverpod/src/stream_kenyan_hospitals.dart';
 
 final unguardedRoutes = [
   // SignUpPage.route,
-  LoginPage.route,
+  // LoginPage.route,
+  '/',
 ];
 
 final routerProvider = Provider((ref) {
@@ -51,27 +52,45 @@ final routerProvider = Provider((ref) {
     redirect: (state) {
       final authState = ref.read(authProvider);
       final location = state.location;
-      final userIsLoggingIn = location == LoginPage.route;
-      
+
+      final purePath = location.split('?from=').first;
+      print(purePath);
+
+      print(location);
+      final loggingIn = purePath == LoginPage.route;
+      final signingUp = purePath == SignUpPage.route;
+      print('IsLoggingIn: $loggingIn');
+      print('Subloc: ${state.subloc}');
+      if (unguardedRoutes.contains(location)) {
+        return null;
+      }
+
+      print(state.queryParametersAll);
+
+      // We need to maintain the fromP if it already existed
+      late String fromP;
+      if (state.queryParams.containsKey('from')) {
+        fromP = state.queryParams['from']!;
+      } else {
+        fromP = state.subloc == '/' ? '' : '?from=${state.subloc}';
+      }
 
       return authState.maybeWhen(
         orElse: () {
-          if (userIsLoggingIn) {
+          // if coming from login to signup
+          // if(signingUp && )
+          if (loggingIn || signingUp) {
+            // no need to redirect.
             return null;
+          } else {
+            return '${LoginPage.route}$fromP';
           }
-          return LoginPage.route;
-        },
-        unAuthenticated: () {
-          if (unguardedRoutes.contains(location)) {
-            return null;
-          }
-          return;
         },
         authenticated: (user) {
-          if (userIsLoggingIn) {
+          if (loggingIn) {
             // go to homePage if user is on login-page
-            return '/';
-          } else if (location == SignUpPage.route) {
+            return fromP;
+          } else if (signingUp) {
             return '/';
           } else {
             return null;
