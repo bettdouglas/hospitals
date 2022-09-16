@@ -5,11 +5,6 @@ import 'package:hospitals_riverpod/src/generated/index.dart';
 import 'package:hospitals_riverpod/src/interceptors/inject_firebase_token_interceptor.dart';
 import 'package:hospitals_riverpod/src/interceptors/logging_interceptor.dart';
 import 'package:build_grpc_channel/build_grpc_channel.dart';
-import 'package:grpc/grpc.dart';
-
-final _channelOptions = ChannelOptions(
-  credentials: ChannelCredentials.insecure(), // transmit unencrypted data.,
-);
 
 final host = 'http://localhost';
 final port = 8080;

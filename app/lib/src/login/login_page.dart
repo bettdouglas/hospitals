@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hospitals_riverpod/src/login/login_provider.dart';
+import 'package:hospitals_riverpod/src/login/login_state.dart';
 import 'package:hospitals_riverpod/src/sign_up/sign_up_page.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -15,6 +16,27 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
+
+    ref.listen<LoginState>(
+      loginProvider,
+      (previous, next) {
+        next.maybeWhen(
+          orElse: () {},
+          failure: (msg, st) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Icons.check),
+                    Text('Success'),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(

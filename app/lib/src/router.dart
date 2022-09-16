@@ -54,25 +54,11 @@ final routerProvider = Provider((ref) {
       final location = state.location;
 
       final purePath = location.split('?from=').first;
-      print(purePath);
 
-      print(location);
       final loggingIn = purePath == LoginPage.route;
       final signingUp = purePath == SignUpPage.route;
-      print('IsLoggingIn: $loggingIn');
-      print('Subloc: ${state.subloc}');
       if (unguardedRoutes.contains(location)) {
         return null;
-      }
-
-      print(state.queryParametersAll);
-
-      // We need to maintain the fromP if it already existed
-      late String fromP;
-      if (state.queryParams.containsKey('from')) {
-        fromP = state.queryParams['from']!;
-      } else {
-        fromP = state.subloc == '/' ? '' : '?from=${state.subloc}';
       }
 
       return authState.maybeWhen(
@@ -83,15 +69,15 @@ final routerProvider = Provider((ref) {
             // no need to redirect.
             return null;
           } else {
+            final fromP = state.subloc == '/' ? '' : '?from=${state.subloc}';
+            ref.read(postLoginRedirectProvider.notifier).change(state.subloc);
             return '${LoginPage.route}$fromP';
           }
         },
         authenticated: (user) {
-          if (loggingIn) {
+          if (loggingIn || signingUp) {
             // go to homePage if user is on login-page
-            return fromP;
-          } else if (signingUp) {
-            return '/';
+            return ref.read(postLoginRedirectProvider);
           } else {
             return null;
           }
@@ -100,3 +86,14 @@ final routerProvider = Provider((ref) {
     },
   );
 });
+
+class RedirectPathProvider extends StateNotifier<String> {
+  RedirectPathProvider() : super('/');
+
+  void change(String text) => state = text;
+}
+
+final postLoginRedirectProvider =
+    StateNotifierProvider<RedirectPathProvider, String>(
+  (ref) => RedirectPathProvider(),
+);

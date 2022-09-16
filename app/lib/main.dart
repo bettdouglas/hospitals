@@ -43,7 +43,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    child: MyApp(),
+    observers: [LoggingObserver()],
+  ));
 }
 
 class MyApp extends ConsumerStatefulWidget {

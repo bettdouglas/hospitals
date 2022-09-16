@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:hospitals_riverpod/src/sign_up/sign_up_provider.dart';
+import 'package:hospitals_riverpod/src/sign_up/sign_up_state.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends ConsumerWidget {
   SignUpPage({Key? key}) : super(key: key);
   static String get route => '/sign-up';
 
@@ -16,8 +17,30 @@ class SignUpPage extends StatelessWidget {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
+
+    ref.listen<SignUpState>(
+      signUpProvider,
+      (previous, next) {
+        next.maybeWhen(
+          orElse: () {},
+          failure: (err, st) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Icons.error),
+                    Text(err),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
