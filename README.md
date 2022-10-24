@@ -11,5 +11,5 @@ The first part focused on creating the backend in dart & an intro to gRPC in gen
 The second part focused on creating the Flutter Client with state management using riverpod. 
 
     - The [app](app/) [README](app/README.md) of the app in the second part focuses on how to use Client Interceptors in gRPC.
-    - The [server](server/) [README](server/README.md) focuses on implementing Server Side gRPC interceptors which get called when a request is made to the server
+    - The [server](server/) [README](server/README.md) focuses on implementing Server Side gRPC interceptors which get called whenever any request is made to the server. That enables things like authentication, logging etc.
   
